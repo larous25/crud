@@ -1,0 +1,11 @@
+{
+	"name":"pueba1express",
+	"version":"0.0.1",
+	"autor":"Brian Esteban Bustos Baquero",
+	"description":"version de pruba",
+	"dependencies":{
+		"express":"3.0.0",
+		"ejs":"latest",
+		"mongoose":"*"
+	}
+}

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hola mundo</title>
+	<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+	<h1></h1>
+	<ul>
+		<li><a href="/crear">Crear</a></li>
+		<li><a href="/leer">Leer</a></li>
+		<li><a href="/actualizar">Actualizar</a></li>
+		<li><a href="/eliminar">Eliminar</a></li>
+	</ul>
+	<form action="/crear" method="POST">
+		<label for="nombre">Nombre:</label>
+		<input type="text" name="nombre" id="nombre"/>
+		<input type="submit" value="Enviar" />
+	</form>
+	<script src="/static/js/main.js"></script>
+	
+</body>
+</html>
