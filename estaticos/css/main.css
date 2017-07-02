@@ -1,0 +1,81 @@
+body {
+	background: #e5e5e5;
+}
+
+main, header {
+	width: 100%;
+}
+
+header {
+	text-align: center;
+}
+
+#usuarios {
+	width: 25%;
+	margin: 15px auto;
+}
+#usuarios .usuario {
+	background: #f9f9f9;
+	border: solid 1px #191919;
+	padding: 10px;
+	box-sizing: content-box;
+	display: table;
+	width: 100%;
+}
+#usuarios .usuario:nth-child(2n) {
+	background: #c9c9c9;
+	text-align: center;
+}
+#usuarios .usuario div {
+	display: table-cell;
+	word-wrap: break-word;
+}
+#usuarios .usuario .eliminar,
+#usuarios .usuario .actualizar {
+	cursor: pointer;
+	float: right;
+}
+
+ul {
+	height: 50px;
+	margin: 0 auto;
+	width: 90%;
+}
+ul li {
+	float: left;
+	width: 25%;
+	min-width: 250px;
+	list-style: none;
+	background: #c9c9c9;
+	height: 100%;
+}
+ul li a{
+	text-decoration: none;
+	line-height: 50px;
+	color: #f9f9f9;
+}
+ul li a:active {
+	color:grey;
+}
+
+
+#crear {
+		background: #f9f9f9;
+		padding: 5px;
+		width: 250px;
+}
+#crear label {
+	color: #191919;
+}
+#crear input {
+	border-radius: 8px;
+	border:1px solid gray;
+	padding: 8px 5px;
+	width: 100%;
+	margin: 8px 0px;
+	box-sizing: border-box;	
+}
+
+.hide {
+	display: none;
+}

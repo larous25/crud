@@ -3,16 +3,48 @@
 <head>
 	<meta charset="UTF-8">
 	<title>hola mundo</title>
-	<link rel="stylesheet" href="/static/css/main.css">
+	<link rel="stylesheet" href="publicos/css/main.css">
 </head>
 <body>
-	<h1>Hola proyecto</h1>
-	<ul>
-		<li><a href="/crear">Crear</a></li>
-		<li><a href="/leer">Leer</a></li>
-		<li><a href="/actualizar">Actualizar</a></li>
-		<li><a href="/eliminar">Eliminar</a></li>
-	</ul>
-	<script src="/static/js/main.js"></script>
+	<header>
+		<h1>Hola</h1>
+		<h4>Este es un ejemplo de un  crud hecho con express, mongo, ajax <small>y mucho amor</small></h4>
+			<ul>
+				<li><a href="#crear">Crear</a></li>
+				<li><a href="/leer">Leer</a></li>
+				<li><a href="#actualizar">Actualizar</a></li>
+				<li><a href="#eliminar">Eliminar</a></li>
+			</ul>
+	</header>
+	<main>
+
+	<div id="usuarios">
+		
+		<%if(usuarios.length == 0) {%>
+			no hay usuarios
+		<% } else {%>
+			  <% usuarios.forEach(function(usuario){ %>
+					<div class="usuario">	
+							<div class="id">
+								<%= usuario._id %>
+							</div>
+							<div class="nombre">
+								<%= usuario.nombre %>
+							</div>
+					</div>
+				<% }); %>
+		<% } %>
+	</div>
+
+
+	<form id="crear" class="hide">
+		<label for="usuario">Nuevo usuario</label>
+		<input type="text" placeholder="Nombre" name="usuario">
+		<button type="submit">Guardar</button>
+	</form>
+
+
+	</main>
+	<script src="publicos/js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+{
+  "mongo":{
+    "prueba": {
+      "nombre":"prueba",
+      "puerto": 27017,
+      "dominio":"localhost"
+    },
+    "desarrollo": {
+      "nombre":"desarrollo",
+      "puerto": 27017,
+      "dominio":"localhost"
+    }
+  },
+  "servidor": {
+    "prueba": {
+      "dominio": "localhost",
+      "puerto": 8080
+    },
+    "desarrollo": {
+      "dominio": "localhost",
+      "puerto": 8081
+    }
+  }
+}

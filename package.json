@@ -1,11 +1,18 @@
 {
-	"name":"pueba1express",
-	"version":"0.0.1",
-	"autor":"Brian Esteban Bustos Baquero",
-	"description":"version de pruba",
-	"dependencies":{
-		"express":"3.0.0",
-		"ejs":"latest",
-		"mongoose":"*"
+	"name": "pueba1express",
+	"version": "0.0.1",
+	"autor": "Brian Esteban Bustos Baquero",
+	"description": "version de pruba",
+	"dependencies": {
+		"body-parser": "^1.17.2",
+		"cors": "^2.8.3",
+		"ejs": "latest",
+		"express": "^4.15.3",
+		"mongoose": "^4.10.7",
+		"serve-favicon": "^2.4.3"
+	},
+	"devDependencies": {
+		"eslint": "^3.19.0",
+		"nodemon": "^1.11.0"
 	}
 }
