@@ -60,9 +60,11 @@ app.use(rutas);
 /* eventos del servidor */
 
 server.on('listening', () => {
-	console.log('\n-----------------------------');
-	console.log(`server is runing port:\t ${PORT}`);
-	console.log('-----------------------------\n');
+	console.log(`
+		-----------------------------
+		server is runing port:\t ${PORT}
+		-----------------------------\n
+	`);
 });
 
 server.on('request', (req) => {
@@ -91,7 +93,7 @@ app.use(function(err, req, res, next) {
 
 
   /**
-   *  For No find
+   *  si no encuentra la pagina
    */
 app.use(function(req, res){
 	res.status(404);
@@ -115,10 +117,8 @@ app.use(function(req, res){
 
 /* comprueba si esta en test o no */
 if(!app.parent){
-
 	conexion(process.env.ENTORNO, () => {
 		server.listen(PORT);
 	});
-
 }
 

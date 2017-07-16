@@ -25,7 +25,7 @@ function pintar() {
 		html = 'no hay usuarios';
 	}
 
-	document.querySelector('#usuarios').innerHTML += html.toString();
+	document.querySelector('#usuarios').innerHTML = html.join('');
 }
 
 function error(data) {
@@ -101,8 +101,35 @@ function crearBoton (clase, evento, texto) {
 }
 
 
-
 // peticiones
+document.querySelector('a[href="#listar"]')
+.addEventListener('click' ,() => {
+	fetch('/usuarios', { 
+		method: 'GET',
+		headers: { 'Content-Type':'application/json' },
+		mode: 'cors',
+		cache: 'default'
+	})
+	.then(res => {
+	
+		if(res.status === 500) return res.json().then(error);
+
+		return res.json()
+		.then(data => {
+			console.log(data);
+			usuarios.length = 0;
+			console.log(usuarios);
+			data.forEach(u => {
+				usuarios.push(u);
+			});
+			pintar();
+		});
+	}).catch(error);
+		
+});
+
+
+
 document.querySelector('#crear')
 .addEventListener('submit', (e) => {
 	e.preventDefault();
@@ -117,12 +144,10 @@ document.querySelector('#crear')
 		})  
 	})
   .then((res) => {
-	if(res.status === 500) {
-			return res.json()
-			.then(error);
-		}
+		if(res.status === 500) 		return res.json().then(error);
+		
 
-	return res.json()
+		return res.json()
 		.then((data) => {
 			console.log(data);
 			usuarios.push(data);
@@ -130,6 +155,7 @@ document.querySelector('#crear')
 		});
 	}).catch(error);
 });
+
 
 function eliminaEste(elemento) {
 	

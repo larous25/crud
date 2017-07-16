@@ -4,7 +4,7 @@ const configuracion = require('./montarEntorno');
 
 /**
  * crea la conexion a mongo
- * @param  { string }   entorno   
+ * @param  { String }   entorno   
  * @param  { Function } llamadaDeRegreso 
  *  */
 module.exports = (entorno, llamadaDeRegreso) => {
@@ -17,7 +17,7 @@ module.exports = (entorno, llamadaDeRegreso) => {
 			proccess.exit(1);
 		}
 
-		console.log('conexion a mongo fue abierta correctamente');
+		console.log('\nconexion a mongo fue abierta correctamente');
 		llamadaDeRegreso();
 	});
 

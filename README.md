@@ -1,16 +1,14 @@
 crud
 ====
 
-crud realizado  en nodejs con express y mongoose
+crud realizado en nodejs con 
+expressjs
+mongooose
 
 
-
-configuracion
- 
- urls para coneciones
+faltan por hacer
 
  cosas para escoger el entornod de desarrollo	
 
- rutas
 
  
