@@ -3,16 +3,27 @@
 	"version": "0.0.1",
 	"autor": "Brian Esteban Bustos Baquero",
 	"description": "version de pruba",
+	"scripts": {
+		"lint": "eslint --ext .js ./",
+		"lint-fix": "eslint --fix --ext .js ./",
+		"start": "PUERTO=5000 nodemon app.js"
+	},
 	"dependencies": {
-		"body-parser": "^1.17.2",
-		"cors": "^2.8.3",
-		"ejs": "latest",
-		"express": "^4.15.3",
-		"mongoose": "^4.10.7",
-		"serve-favicon": "^2.4.3"
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"ejs": "^2.6.1",
+		"express": "^4.17.1",
+		"helmet": "^3.18.0",
+		"mongoose": "^4.13.18",
+		"serve-favicon": "^2.5.0"
 	},
 	"devDependencies": {
-		"eslint": "^3.19.0",
-		"nodemon": "^1.11.0"
+		"eslint": "^5.16.0",
+		"eslint-config-standard": "^12.0.0",
+		"eslint-plugin-import": "^2.17.3",
+		"eslint-plugin-node": "^9.1.0",
+		"eslint-plugin-promise": "^4.1.1",
+		"eslint-plugin-standard": "^4.0.0",
+		"nodemon": "^1.19.1"
 	}
 }

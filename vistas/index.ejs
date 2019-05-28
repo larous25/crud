@@ -8,29 +8,29 @@
 <body>
 	<header>
 		<h1>Hola</h1>
-		<h4>Este es un ejemplo de un  crud hecho con express, mongo, ajax <small>y mucho amor</small></h4>
-			<ul>
-				<li><a href="#crear">Crear</a></li>
-				<li><a href="#listar">Listar</a></li>
-				<li><a href="#actualizar">Actualizar</a></li>
-				<li><a href="#eliminar">Eliminar</a></li>
-			</ul>
+		<h4>Este es un ejemplo de un  crud hecho con express, mongodb, ajax <small>y mucho amor</small></h4>
 	</header>
 	<main>
-
+	<button id="formulario">Crear</button>
 	<div id="usuarios">
 		
 		<%if(usuarios.length == 0) {%>
 			no hay usuarios
 		<% } else {%>
-			  <% usuarios.forEach(function(usuario){ %>
-					<div class="usuario">	
-							<div class="id">
-								<%= usuario._id %>
-							</div>
-							<div class="nombre">
-								<%= usuario.nombre %>
-							</div>
+			  <% usuarios.forEach(function(usuario){ %>	
+					<div class="usuario" id="usuario-<%= usuario.idShort %>">
+						<div>
+							<strong class="id"><%= usuario._id %></strong>
+						</div>
+						<div>
+							<input type="text" class="nombre" value="<%= usuario.nombre %>">
+						</div>
+						<button class="idEliminar" idAttr="<%= usuario._id %>">
+							Eliminar
+						</button>
+						<button class="idActualizar" idAttr="<%= usuario._id %>">
+							Actualizar
+						</button>
 					</div>
 				<% }); %>
 		<% } %>
@@ -40,10 +40,25 @@
 	<form id="crear" class="hide">
 		<label for="usuario">Nuevo usuario</label>
 		<input type="text" placeholder="Nombre" name="usuario">
-		<button type="submit">Guardar</button>
+		<button>Guardar</button>
 	</form>
 
-
+<template id="nuevoUsuarioTemplate">
+	<div class="usuario">
+		<div>
+			<strong class="id"></strong>
+		</div>
+		<div>
+			<input type="text" class="nombre">
+		</div>
+		<button class="idEliminar">
+			Eliminar
+		</button>
+		<button class="idActualizar">
+			Actualizar
+		</button>
+	</div>
+</template>
 	</main>
 	<script src="publicos/js/main.js"></script>
 </body>

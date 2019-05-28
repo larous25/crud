@@ -1,47 +1,57 @@
 
-const enrutador = require('express').Router();
-const Usuarios = require('../modelos/Usuarios');
+const enrutador = require('express').Router()
+const Usuarios = require('../modelos/Usuarios')
 
-enrutador.get('/', (req, res, next) => {
-	Usuarios.find((err, datos) => {
-		if (err) return next(err);
+enrutador.get('/', async function buscarUsuarios (req, res, next) {
+  try {
+    let data = await Usuarios.find()
+    let usuarios = data.map(u => u.toObject())
+    res.render('index', { usuarios })
+  } catch (error) {
+    next(error)
+  }
+})
 
-		res.render('index', {usuarios: datos});
-		
-	});
-});
+enrutador.get('/usuarios', async function llamarUsuarios (req, res, next) {
+  let { id, nombre } = req.query
+  let query = {
+    $or: [
+      {},
+      { id },
+      { nombre }
+    ]
+  }
 
-enrutador.get('/usuarios', (req, res, next) => {
+  try {
+    let datos = await Usuarios.find(query).exec()
+    res.json(datos)
+  } catch (error) {
+    next(error)
+  }
+})
 
-	Usuarios.find({ $or :	[
-		{},
-		{_id: req.query.id }, 
-		{nombre: req.query.nombre }
-	]}, (err, datos) => {
-		if (err) return next(err);
+enrutador.delete('/usuarios', async function borrarUsuario (req, res, next) {
+  let { _id, nombre } = req.query
+  try {
+    let query = {
+      $or: [{ _id }, { nombre }]
+    }
 
-		res.json(datos);
-	});
-});
+    await Usuarios.remove(query)
+    res.status(200).json('ok')
+  } catch (error) {
 
+  }
+})
 
-enrutador.delete('/usuarios', (req, res, next) => {
-	Usuarios.remove({ $or :	[
-		{_id: req.query.id }, 
-		{nombre: req.query.nombre }
-	]}, err => {  
-		if (err) return next(err);
-		res.status(200).json('ok');
-	});
-});
+enrutador.post('/usuarios', async function nuevoUuario (req, res, next) {
+  let { nombre } = req.body
+  try {
+    let usuario = await new Usuarios({ nombre }).save()
+    res.status(201).json(usuario)
+  } catch (error) {
+    next(error)
+  }
+})
 
-enrutador.post('/usuarios', (req, res, next) => { 
-	new Usuarios({ nombre: req.body.nombre })
-		.save((err, usuario) => { 
-			if (err) return next(err);
-
-			res.status(201).json(usuario);
-		});
-});
-
-module.exports = enrutador;
+module.exports = enrutador

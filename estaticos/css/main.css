@@ -36,28 +36,6 @@ header {
 	float: right;
 }
 
-ul {
-	height: 50px;
-	margin: 0 auto;
-	width: 90%;
-}
-ul li {
-	float: left;
-	width: 25%;
-	min-width: 250px;
-	list-style: none;
-	background: #c9c9c9;
-	height: 100%;
-}
-ul li a{
-	text-decoration: none;
-	line-height: 50px;
-	color: #f9f9f9;
-}
-ul li a:active {
-	color:grey;
-}
-
 
 #crear {
 		background: #f9f9f9;
