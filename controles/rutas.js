@@ -13,18 +13,15 @@ enrutador.get('/', async function buscarUsuarios (req, res, next) {
 })
 
 enrutador.get('/usuarios', async function llamarUsuarios (req, res, next) {
-  let { id, nombre } = req.query
   let query = {
-    $or: [
-      {},
-      { id },
-      { nombre }
-    ]
+    $or: [{}]
   }
+  query.$or.concat(Object.keys(req.query).filter(element => {
+    if (element) return { element }
+  }))
 
   try {
-    let datos = await Usuarios.find(query).exec()
-    res.json(datos)
+    res.json(await Usuarios.find(query).exec())
   } catch (error) {
     next(error)
   }
@@ -41,6 +38,17 @@ enrutador.delete('/usuarios', async function borrarUsuario (req, res, next) {
     res.status(200).json('ok')
   } catch (error) {
 
+  }
+})
+
+enrutador.put('/usuarios', async function borrarUsuario (req, res, next) {
+  let { _id } = req.query
+  let { nombre } = req.body
+  try {
+    let usuario = await Usuarios.updateOne({ _id }, { nombre })
+    res.status(200).json(usuario)
+  } catch (error) {
+    next(error)
   }
 })
 

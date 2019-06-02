@@ -12,8 +12,15 @@
 	</header>
 	<main>
 	<button id="formulario">Crear</button>
+	<button id="mostrar">Listar</button>
+	
+	<form id="crear" class="hide">
+		<label for="usuario">Nuevo usuario</label>
+		<input type="text" placeholder="Nombre" name="usuario">
+		<button>Guardar</button>
+	</form>
+
 	<div id="usuarios">
-		
 		<%if(usuarios.length == 0) {%>
 			no hay usuarios
 		<% } else {%>
@@ -35,13 +42,6 @@
 				<% }); %>
 		<% } %>
 	</div>
-
-
-	<form id="crear" class="hide">
-		<label for="usuario">Nuevo usuario</label>
-		<input type="text" placeholder="Nombre" name="usuario">
-		<button>Guardar</button>
-	</form>
 
 <template id="nuevoUsuarioTemplate">
 	<div class="usuario">

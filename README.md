@@ -22,5 +22,3 @@ cada modificación es recomendable utilizar la linterna:
 ``
 npm run lint-fix
 ``
-
-// falta eliminar, actualizar

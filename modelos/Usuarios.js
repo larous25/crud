@@ -19,5 +19,4 @@ usuarios.options.toObject.transform = (doc, usuario, options) => {
   return usuario
 }
 
-
 module.exports = mongoose.model('Usuarios', usuarios)
