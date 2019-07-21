@@ -13,12 +13,26 @@
   },
   "servidor": {
     "prueba": {
+      "nombre": "servidorPrueba",
       "dominio": "localhost",
       "puerto": 8080
     },
     "desarrollo": {
+      "nombre": "servidorDesarrollo",
       "dominio": "localhost",
       "puerto": 8081
+    }
+  },
+  "cliente": {
+    "prueba": {
+      "nombre": "clientePrueba",
+      "dominio": "localhost",
+      "puerto": 8081
+    },
+    "desarrollo": {
+      "nombre": "clienteDesarrollo",
+      "dominio": "localhost",
+      "puerto": 8082
     }
   }
 }
