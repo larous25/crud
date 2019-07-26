@@ -30,7 +30,7 @@ function crearUsuario (evento) {
     'nombre': evento.target[0].value
   }
 
-  ajax('/usuarios', {
+  ajax('/api/usuarios', {
     method: 'POST',
     body: JSON.stringify(nuevoUsuario)
   })
@@ -46,7 +46,7 @@ function crearUsuario (evento) {
 
 function eliminarUsuario (evento) {
   let _id = evento.target.getAttribute('idAttr')
-  let url = `/usuarios?_id=${_id}`
+  let url = `/api/usuarios?_id=${_id}`
   let opcion = confirm('Esta seguro que desea eliminar?')
   if (opcion) {
     ajax(url, { method: 'DELETE' })
@@ -66,7 +66,7 @@ function eliminarUsuario (evento) {
 
 function actualizarUsuario (evento) {
   let _id = evento.target.getAttribute('idAttr')
-  let url = `/usuarios?_id=${_id}`
+  let url = `/api/usuarios?_id=${_id}`
 
   let input = document.querySelector(`#usuario-${cortarCadena(_id)} input.nombre`)
 
@@ -95,7 +95,7 @@ function actualizarUsuario (evento) {
 }
 
 function listarUsuarios () {
-  let url = `/usuarios`
+  let url = `/api/usuarios`
 
   let usuariosDivContainer = document.querySelector('#usuarios')
   let usuariosDivs = document.querySelectorAll('.usuario')

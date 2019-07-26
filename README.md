@@ -22,3 +22,5 @@ cada modificación es recomendable utilizar la linterna:
 ``
 npm run lint-fix
 ``
+
+// "preinstall": "npm --prefix cliente/ install servidor/ install basededatos/ install",

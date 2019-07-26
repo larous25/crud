@@ -10,7 +10,9 @@
 	},
 	"dependencies": {
 		"basededatos": "file:basededatos",
-		"express": "^4.17.1"
+		"cliente": "file:cliente",
+		"express": "^4.17.1",
+		"servidor": "file:servidor"
 	},
 	"devDependencies": {
 		"eslint": "^5.16.0",
