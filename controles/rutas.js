@@ -1,65 +1,120 @@
+import { Router } from 'express'
+import mongoose from 'mongoose'
 
-const enrutador = require('express').Router()
-const Usuarios = require('../modelos/Usuarios')
+import Usuarios from '../modelos/Usuarios.js'
 
-enrutador.get('/', async function buscarUsuarios (req, res, next) {
-  try {
-    let data = await Usuarios.find()
-    let usuarios = data.map(u => u.toObject())
-    res.render('index', { usuarios })
-  } catch (error) {
-    next(error)
-  }
+const enrutador = Router()
+
+// Vista principal
+enrutador.get('/', async (req, res) => {
+  const usuarios = await Usuarios.find()
+
+  res.render('index', {
+    usuarios: usuarios.map(u => u.toObject())
+  })
 })
 
-enrutador.get('/usuarios', async function llamarUsuarios (req, res, next) {
-  let query = {
-    $or: [{}]
-  }
-  query.$or.concat(Object.keys(req.query).filter(element => {
-    if (element) return { element }
-  }))
+// Obtener todos
+enrutador.get('/usuarios', async (req, res) => {
+  const usuarios = await Usuarios.find()
 
-  try {
-    res.json(await Usuarios.find(query).exec())
-  } catch (error) {
-    next(error)
-  }
+  res.json(usuarios)
 })
 
-enrutador.delete('/usuarios', async function borrarUsuario (req, res, next) {
-  let { _id, nombre } = req.query
-  try {
-    let query = {
-      $or: [{ _id }, { nombre }]
+// Obtener uno
+enrutador.get('/usuarios/:id', async (req, res) => {
+  const { id } = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      error: 'ID inválido'
+    })
+  }
+
+  const usuario = await Usuarios.findById(id)
+
+  if (!usuario) {
+    return res.status(404).json({
+      error: 'Usuario no encontrado'
+    })
+  }
+
+  res.json(usuario)
+})
+
+// Crear
+enrutador.post('/usuarios', async (req, res) => {
+  const { nombre } = req.body
+
+  if (!nombre?.trim()) {
+    return res.status(400).json({
+      error: 'El nombre es obligatorio'
+    })
+  }
+
+  const usuario = await Usuarios.create({
+    nombre: nombre.trim()
+  })
+
+  res.status(201).json(usuario)
+})
+
+// Actualizar
+enrutador.put('/usuarios/:id', async (req, res) => {
+  const { id } = req.params
+  const { nombre } = req.body
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      error: 'ID inválido'
+    })
+  }
+
+  if (!nombre?.trim()) {
+    return res.status(400).json({
+      error: 'El nombre es obligatorio'
+    })
+  }
+
+  const usuario = await Usuarios.findByIdAndUpdate(
+    id,
+    {
+      nombre: nombre.trim()
+    },
+    {
+      new: true,
+      runValidators: true
     }
+  )
 
-    await Usuarios.remove(query)
-    res.status(200).json('ok')
-  } catch (error) {
-
+  if (!usuario) {
+    return res.status(404).json({
+      error: 'Usuario no encontrado'
+    })
   }
+
+  res.json(usuario)
 })
 
-enrutador.put('/usuarios', async function borrarUsuario (req, res, next) {
-  let { _id } = req.query
-  let { nombre } = req.body
-  try {
-    let usuario = await Usuarios.updateOne({ _id }, { nombre })
-    res.status(200).json(usuario)
-  } catch (error) {
-    next(error)
+// Eliminar
+enrutador.delete('/usuarios/:id', async (req, res) => {
+  const { id } = req.params
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      error: 'ID inválido'
+    })
   }
+
+  const usuario = await Usuarios.findByIdAndDelete(id)
+
+  if (!usuario) {
+    return res.status(404).json({
+      error: 'Usuario no encontrado'
+    })
+  }
+
+  res.status(204).send()
 })
 
-enrutador.post('/usuarios', async function nuevoUuario (req, res, next) {
-  let { nombre } = req.body
-  try {
-    let usuario = await new Usuarios({ nombre }).save()
-    res.status(201).json(usuario)
-  } catch (error) {
-    next(error)
-  }
-})
-
-module.exports = enrutador
+export default enrutador

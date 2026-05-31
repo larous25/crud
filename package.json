@@ -1,29 +1,34 @@
 {
-	"name": "pueba1express",
-	"version": "0.0.1",
-	"autor": "Brian Esteban Bustos Baquero",
-	"description": "version de pruba",
-	"scripts": {
-		"lint": "eslint --ext .js ./",
-		"lint-fix": "eslint --fix --ext .js ./",
-		"start": "PUERTO=5000 nodemon app.js"
-	},
-	"dependencies": {
-		"body-parser": "^1.19.0",
-		"cors": "^2.8.5",
-		"ejs": "^2.6.1",
-		"express": "^4.17.1",
-		"helmet": "^3.18.0",
-		"mongoose": "^4.13.18",
-		"serve-favicon": "^2.5.0"
-	},
-	"devDependencies": {
-		"eslint": "^5.16.0",
-		"eslint-config-standard": "^12.0.0",
-		"eslint-plugin-import": "^2.17.3",
-		"eslint-plugin-node": "^9.1.0",
-		"eslint-plugin-promise": "^4.1.1",
-		"eslint-plugin-standard": "^4.0.0",
-		"nodemon": "^1.19.1"
-	}
+  "name": "pueba1express",
+  "version": "0.0.1",
+  "autor": "Brian Esteban Bustos Baquero",
+  "description": "version de pruba",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "helmet": "^8.2.0",
+    "mongoose": "^9.6.3",
+    "morgan": "^1.10.1",
+    "serve-favicon": "^2.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^4.1.0",
+    "prettier": "^3.8.3"
+  }
 }

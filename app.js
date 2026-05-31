@@ -1,103 +1,119 @@
 // configuraciones principales
+import "dotenv/config";
 
-global._Proyecto = __dirname
-process.env.ENTORNO = process.env.ENTORNO || 'desarrollo'
+import cors from "cors";
+import helmet from "helmet";
+
+import path from "path";
+import favicon from "serve-favicon";
+import express from "express";
+import http from "http";
+import morgan from 'morgan'
+
+import { fileURLToPath } from "url";
+
+import rutas from "./controles/rutas.js";
+import conexion from "./configuracion/conexion.js";
+
+// reemplazo de __dirname y __filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+global._Proyecto = __dirname;
+process.env.ENTORNO ||= "desarrollo";
 
 /* ------------- muy sexi barra separadora --------------- */
 
-const cors = require('cors')
-const helmet = require('helmet')
-const bodyParser = require('body-parser')
-const path = require('path')
-const favicon = require('serve-favicon')
-const express = require('express')
-const http = require('http')
+const app = express();
+const server = http.createServer(app);
 
-const rutas = require('./controles/rutas')
-const conexion = require('./configuracion/conexion')
-const varServidor = require('./configuracion/montarEntorno')('servidor', process.env.ENTORNO)
-
-const PORT = process.env.PUERTO ? process.env.PUERTO : varServidor.puerto
-
-/* ------------- muy sexi barra separadora --------------- */
-
-const app = module.exports = express()
-const server = http.createServer(app)
+export default app;
 
 /* ------------- muy sexi barra separadora --------------- */
 
 /*
-directorio de archivos estaticso
+directorio de archivos estaticos
 motor de renderizacion de vistas
-favico
+favicon
 */
-app.use('/publicos', express.static(path.join(__dirname, '/estaticos')))
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, '/vistas'))
-app.use(favicon('./estaticos/favicon.ico'))
+app.use("/publicos", express.static(path.join(__dirname, "estaticos")));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "vistas"));
+app.use(favicon(path.join(__dirname, "estaticos", "favicon.ico")));
 
 // Cross-origin resource sharing
-app.use(helmet())
-app.use(cors())
+app.use(helmet());
+app.use(cors());
 
-// Parse json a una 1mb =S
-app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }))
-app.use(bodyParser.json({ limit: '1mb' }))
+// Parse json
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(rutas)
+// Logger
+app.use(morgan('dev'))
+
+// rutas
+app.use(rutas);
 
 /* eventos del servidor */
-server.on('listening', () => {
-  console.log(`server is runing port:\t ${PORT}`)
-  console.log(`http://127.0.0.1:${PORT}`)
-})
-
-server.on('request', (req) => {
-  console.log(` - request:\t ${req.method} \t ${req.url} `)
-})
+server.on("listening", () => {
+  console.log(`server is running on port:\t${process.env.PUERTO}`);
+  console.log(`http://127.0.0.1:${process.env.PUERTO}`);
+});
 
 /* ------------- muy sexi barra separadora --------------- */
 
-//  Manejos de errores
-app.use(function errorHandler (err, req, res, next) {
-  console.error('este es de la aplicacion Express', err)
-  res.status(err.statusCode || 400).json({
-    message: err.message
-  })
-})
+// Manejo de errores
+app.use((err, req, res, next) => {
+  console.error(err);
 
-// si no encuentra la url 404
-app.use(function (req, res) {
-  res.status(404)
-  let msn = 'Not found'
+  res.status(err.status || 500).json({
+    error: err.message || "Internal Server Error",
+  });
+});
 
-  if (req.accepts('html')) {
-    if (app.get('env') === 'production') {
-      return res.render('404', { url: req.url })
-    } else {
-      return res.send(`posiblemente no exite la ruta ${req.url} asi que estas apuntando mal`)
+// si no encuentra la url
+app.use((req, res) => {
+  res.status(404);
+
+  const msn = "Not found";
+
+  if (req.accepts("html")) {
+    if (app.get("env") === "production") {
+      return res.render("404", { url: req.url });
     }
+
+    return res.send(
+      `posiblemente no existe la ruta ${req.url}, así que estás apuntando mal`,
+    );
   }
 
-  if (req.accepts('json')) {
-    return res.json({ 'error': msn })
+  if (req.accepts("json")) {
+    return res.json({ error: msn });
   }
 
-  res.send(msn)
-})
+  res.send(msn);
+});
 
 // por si todo falla
 process
-  .on('uncaughtException', err => {
-    console.error('fatal error en:  ', err)
-    process.exit(1)
+  .on("uncaughtException", (err) => {
+    console.error("fatal error:", err);
+    process.exit(1);
   })
-  .on('unhandledRejection', (err, p) => {
-    console.error(`a ocurrido en la funcion ${p} el siguiente error: `, err.message)
-    process.exit(1)
-  })
+  .on("unhandledRejection", (err, promise) => {
+    console.error(`ha ocurrido un error en la promesa ${promise}:`, err);
+    process.exit(1);
+  });
 
 // inicio
-conexion(process.env.ENTORNO, () => {
-  server.listen(PORT)
-})
+try {
+  await conexion();
+
+  server.listen(process.env.PUERTO, () => {
+    console.log(`Servidor iniciado en puerto ${process.env.PUERTO}`);
+  });
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}

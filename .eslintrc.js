@@ -1,18 +1,17 @@
-module.exports = {
-  'env': {
-    'commonjs': true,
-    'es6': true,
-    'node': true
+export default {
+  env: {
+    node: true,
+    es2022: true,
   },
-  'extends': 'standard',
-  'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly'
+
+  extends: ["standard"],
+
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
-  'parserOptions': {
-    'ecmaVersion': 2018
+
+  rules: {
+    "no-console": "off",
   },
-  'rules': {
-    "no-console": "off"
-  }
-}
+};
