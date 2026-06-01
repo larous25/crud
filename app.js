@@ -8,7 +8,10 @@ import path from "path";
 import favicon from "serve-favicon";
 import express from "express";
 import http from "http";
-import morgan from 'morgan'
+
+import logger from "./middlewares/logger.js";
+import requestLogger from "./middlewares/requestLogger.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 import { fileURLToPath } from "url";
 
@@ -49,28 +52,25 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Logger
-app.use(morgan('dev'))
+// identificador para cada request
+app.use((req, res, next) => {
+  req.requestId = crypto.randomUUID();
+  next();
+});
+
+// Middleware de logs
+app.use(requestLogger);
 
 // rutas
 app.use(rutas);
 
 /* eventos del servidor */
 server.on("listening", () => {
-  console.log(`server is running on port:\t${process.env.PUERTO}`);
-  console.log(`http://127.0.0.1:${process.env.PUERTO}`);
+  logger.info(`server is running on port:\t${process.env.PUERTO}`);
+  logger.info(`http://127.0.0.1:${process.env.PUERTO}`);
 });
 
 /* ------------- muy sexi barra separadora --------------- */
-
-// Manejo de errores
-app.use((err, req, res, next) => {
-  console.error(err);
-
-  res.status(err.status || 500).json({
-    error: err.message || "Internal Server Error",
-  });
-});
 
 // si no encuentra la url
 app.use((req, res) => {
@@ -94,6 +94,9 @@ app.use((req, res) => {
 
   res.send(msn);
 });
+
+// error handler
+app.use(errorHandler);
 
 // por si todo falla
 process

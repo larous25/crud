@@ -1,170 +1,168 @@
 // objetos DOM
-const btnMostar = document.querySelector('#mostrar')
-const btnFormulario = document.querySelector('#formulario')
-const formCrear = document.querySelector('#crear')
-const temUsuario = document.querySelector('#nuevoUsuarioTemplate')
-const usuariosContainer = document.querySelector('#usuarios')
+const btnMostar = document.querySelector("#mostrar");
+const btnFormulario = document.querySelector("#formulario");
+const formCrear = document.querySelector("#crear");
+const temUsuario = document.querySelector("#nuevoUsuarioTemplate");
+const usuariosContainer = document.querySelector("#usuarios");
 
 // eventos
-btnMostar.addEventListener('click', listarUsuarios)
+btnMostar.addEventListener("click", listarUsuarios);
 
-btnFormulario.addEventListener('click', () => {
-  formCrear.classList.toggle('hide')
-})
+btnFormulario.addEventListener("click", () => {
+  formCrear.classList.toggle("hide");
+});
 
-formCrear.addEventListener('submit', crearUsuario)
+formCrear.addEventListener("submit", crearUsuario);
 
 // delegación de eventos
-usuariosContainer.addEventListener('click', evento => {
-  if (evento.target.classList.contains('idEliminar')) {
-    eliminarUsuario(evento)
+usuariosContainer.addEventListener("click", (evento) => {
+  if (evento.target.classList.contains("idEliminar")) {
+    eliminarUsuario(evento);
   }
 
-  if (evento.target.classList.contains('idActualizar')) {
-    actualizarUsuario(evento)
+  if (evento.target.classList.contains("idActualizar")) {
+    actualizarUsuario(evento);
   }
-})
+});
 
-async function crearUsuario (evento) {
-  evento.preventDefault()
+async function crearUsuario(evento) {
+  evento.preventDefault();
 
   const nuevoUsuario = {
-    nombre: evento.target.usuario.value.trim()
-  }
+    nombre: evento.target.usuario.value.trim(),
+  };
 
   if (!nuevoUsuario.nombre) {
-    return alert('Debe ingresar un nombre')
+    return alert("Debe ingresar un nombre");
   }
 
   try {
-    const res = await ajax('/usuarios', {
-      method: 'POST',
-      body: JSON.stringify(nuevoUsuario)
-    })
+    const res = await ajax("/usuarios", {
+      method: "POST",
+      body: JSON.stringify(nuevoUsuario),
+    });
 
     if (!res.ok) {
-      throw new Error(await res.text())
+      throw new Error(await res.text());
     }
 
-    const usuario = await res.json()
+    const usuario = await res.json();
 
-    pintar(usuario)
+    pintar(usuario);
 
-    formCrear.reset()
-    formCrear.classList.add('hide')
+    formCrear.reset();
+    formCrear.classList.add("hide");
   } catch (err) {
-    error(err.message)
+    error(err.message);
   }
 }
 
-async function eliminarUsuario (evento) {
-  const id = evento.target.dataset.id
+async function eliminarUsuario(evento) {
+  const id = evento.target.dataset.id;
 
-  if (!confirm('¿Está seguro que desea eliminar?')) {
-    return
+  if (!confirm("¿Está seguro que desea eliminar?")) {
+    return;
   }
 
   try {
     const res = await ajax(`/usuarios/${id}`, {
-      method: 'DELETE'
-    })
+      method: "DELETE",
+    });
 
     if (!res.ok) {
-      throw new Error(await res.text())
+      throw new Error(await res.text());
     }
 
-    document.querySelector(`#usuario-${id}`)?.remove()
+    document.querySelector(`#usuario-${id}`)?.remove();
   } catch (err) {
-    error(err.message)
+    error(err.message);
   }
 }
 
-async function actualizarUsuario (evento) {
-  const id = evento.target.dataset.id
+async function actualizarUsuario(evento) {
+  const id = evento.target.dataset.id;
 
-  const input = document.querySelector(
-    `#usuario-${id} .nombre`
-  )
+  const input = document.querySelector(`#usuario-${id} .nombre`);
 
   const nuevoUsuario = {
-    nombre: input.value.trim()
-  }
+    nombre: input.value.trim(),
+  };
 
   if (!nuevoUsuario.nombre) {
-    return alert('No puede actualizar un nombre vacío')
+    return alert("No puede actualizar un nombre vacío");
   }
 
   try {
     const res = await ajax(`/usuarios/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(nuevoUsuario)
-    })
+      method: "PUT",
+      body: JSON.stringify(nuevoUsuario),
+    });
 
     if (!res.ok) {
-      throw new Error(await res.text())
+      throw new Error(await res.text());
     }
 
-    const usuario = await res.json()
+    const usuario = await res.json();
 
-    input.value = usuario.nombre
+    input.value = usuario.nombre;
 
-    alert('Actualizado')
+    alert("Actualizado");
   } catch (err) {
-    error(err.message)
+    error(err.message);
   }
 }
 
-async function listarUsuarios () {
+async function listarUsuarios() {
   try {
-    const res = await ajax('/usuarios')
+    const res = await ajax("/usuarios");
 
     if (!res.ok) {
-      throw new Error(await res.text())
+      throw new Error(await res.text());
     }
 
-    const usuarios = await res.json()
+    const usuarios = await res.json();
 
-    usuariosContainer.innerHTML = ''
+    usuariosContainer.innerHTML = "";
 
-    usuarios.forEach(pintar)
+    usuarios.forEach(pintar);
   } catch (err) {
-    error(err.message)
+    error(err.message);
   }
 }
 
-function pintar (usuario) {
-  const fragment = temUsuario.content.cloneNode(true)
+function pintar(usuario) {
+  const fragment = temUsuario.content.cloneNode(true);
 
-  const divUsuario = fragment.querySelector('.usuario')
-  const divId = fragment.querySelector('.id')
-  const inputNombre = fragment.querySelector('.nombre')
-  const btnEliminar = fragment.querySelector('.idEliminar')
-  const btnActualizar = fragment.querySelector('.idActualizar')
+  const divUsuario = fragment.querySelector(".usuario");
+  const divId = fragment.querySelector(".id");
+  const inputNombre = fragment.querySelector(".nombre");
+  const btnEliminar = fragment.querySelector(".idEliminar");
+  const btnActualizar = fragment.querySelector(".idActualizar");
 
-  divUsuario.id = `usuario-${usuario._id}`
+  divUsuario.id = `usuario-${usuario._id}`;
 
-  divId.textContent = usuario._id
-  inputNombre.value = usuario.nombre
+  divId.textContent = usuario._id;
+  inputNombre.value = usuario.nombre;
 
-  btnEliminar.dataset.id = usuario._id
-  btnActualizar.dataset.id = usuario._id
+  btnEliminar.dataset.id = usuario._id;
+  btnActualizar.dataset.id = usuario._id;
 
-  usuariosContainer.appendChild(fragment)
+  usuariosContainer.appendChild(fragment);
 }
 
-function ajax (url, options = {}) {
+function ajax(url, options = {}) {
   return fetch(url, {
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    ...options
-  })
+    ...options,
+  });
 }
 
-function error (mensaje) {
-  alert(mensaje)
+function error(mensaje) {
+  alert(mensaje);
 }
 
-window.onerror = msg => {
-  error(msg)
-}
+window.onerror = (msg) => {
+  error(msg);
+};

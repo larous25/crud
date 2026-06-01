@@ -1,9 +1,15 @@
-# CRUD
+# CRUD de Usuarios con Node.js
 
-crud realizado en nodejs con `expressjs`,`ejs`,`mongooose`
+Aplicación CRUD desarrollada con Node.js, Express.js, EJS y Mongoose. El proyecto permite gestionar una lista de usuarios mediante operaciones básicas de creación, consulta, actualización y eliminación de registros almacenados en MongoDB.
 
-Al ingresar a la pagina “index” donde se pueden realizar las siguientes operaciones CRUD sobre lista, crea, actualiza y sobre un modelo de usuario usuarios  
-Este proyecto es un ejemplo de una aplicación con nodejs
+Al ingresar a la página principal (`index`), el usuario puede visualizar el listado de usuarios registrados y realizar las siguientes operaciones:
+
+- Crear nuevos usuarios.
+- Consultar la lista de usuarios existentes.
+- Actualizar la información de un usuario.
+- Eliminar usuarios del sistema.
+
+Este proyecto sirve como ejemplo práctico de una aplicación web desarrollada con Node.js utilizando el patrón MVC, renderización de vistas con EJS y persistencia de datos mediante MongoDB y Mongoose.
 
 pasos para utilización:
 
@@ -11,8 +17,10 @@ pasos para utilización:
   `npm install`
 - arrancar mongo (eso depende de cada sistema)
 - inicio de la aplicacion
-  `npm start`
+  `npm run`
 
 cada modificación es recomendable utilizar la linterna:
 
 `npm run lint-fix`
+
+![alt text](image.png)
